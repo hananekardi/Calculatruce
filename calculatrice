@@ -1,0 +1,531 @@
+#!/bin/bash 
+
+
+echo $(clear)
+                             #------------------------------------------------------------------------------------------------------------------
+                             #----------------------------------------ADVANCE CALCULATOR--------------------------------------------------------
+		             #------------------------------------------------------------------------------------------------------------------
+
+
+             #---------------------constante d’Archimède π---------
+
+    pi=$(echo "4*s(1)" | bc -l )
+
+
+            #---------------------les fonctions -----------------
+add()
+{       
+	
+ if [[ $a = *[[:digit:]]*  ]] && [[ $b = *[[:digit:]]*  ]] ;then   #*[[:digit:]]* ---> classe de caractéres pour Digits: 0 1 2 3 4 5 6 7 8 9.
+
+
+    z=$( echo $a+$b | bc -l)
+     echo $z
+ else
+	 echo "MATH ERRER"
+ fi
+}
+
+
+sub()
+{
+	if [[ $a = *[[:digit:]]*  ]] && [[ $b = *[[:digit:]]*  ]] ;then
+		z=$( echo $a-$b | bc -l)
+		echo $z
+	else  echo "MATH ERRER"
+	fi
+}
+
+
+multi()
+{
+	 if [[ $a = *[[:digit:]]*  ]] && [[ $b = *[[:digit:]]*  ]] ;then
+		 z=$( echo $a*$b | bc -l)
+		 echo $z
+	 else  echo "MATH ERRER"
+	 fi
+
+}
+
+
+div()
+{
+         if [[ $a = *[[:digit:]]*  ]] && [[ $b = *[[:digit:]]*  ]] && [[ $b -ne 0  ]] ;then
+		 z=$( echo $a/$b | bc -l)
+		 echo $z
+         else  echo "MATH ERRER"
+         fi
+
+}
+
+
+     fact(){
+            if [[ $a = *[[:digit:]]*  ]];then 
+		    if [[ $a -ge 0  ]];then
+			    counter=$a 
+			    factorial=1
+			    if [[ $a -eq 0  ]];then
+				    factorial=1
+			    else
+				    while [ $counter -gt 0 ]; # while counter > 0
+				    do
+					    factorial=$(( $factorial * $counter ))
+					    counter=$(( $counter - 1 ))
+				    done
+			    fi
+			         echo $factorial
+		 else
+			 echo "MATH ERROR "
+		    fi
+	    else echo "MATH ERRER"
+	    fi	    
+
+     }
+
+
+
+pow(){
+         if [[ $a = *[[:digit:]]*  ]] && [[ $b = *[[:digit:]]*  ]] ;then
+		 puissance=1
+		 while [[ $b -ge 1 ]];do
+			 puissance=$(( $puissance * $a ))
+			 b=$(($b-1))
+		 done 
+		 echo $puissance
+	 else echo "MATH ERRER"
+	 fi
+
+
+
+
+}
+
+  mode(){
+    case $c in
+         "1 rad")
+                echo $a
+
+                 ;;
+
+         "2 deg")
+                a=$( echo $a*$pi/180 | bc -l)
+                echo $a
+                 ;;
+
+         "3 grad")
+               a=$( echo $a*$pi/200 | bc -l)
+               echo $a
+                ;;
+
+           esac
+ }
+
+ sin(){
+
+         z=$(echo "s($a)" | bc -l )
+          echo $z
+ }
+
+
+         #------------------------cos
+   cos(){
+         z=$(echo "c($a)" | bc -l )
+          echo "$z"
+  }
+
+         #------------------------tan
+        tan()  {
+
+          z=$(echo "s($a)/c($a)" | bc -l )
+          echo "$z" 
+  }
+
+          #-------------------arsin
+         asin() {
+
+     if [[ $a -le 1  ]] && [[ $a -ge -1 ]];then
+
+
+         if [[ $a -eq 1 ]];then
+        s=$(echo "$pi/2" | bc -l)
+                  echo "$s"
+
+         elif [[ $a -eq -1 ]];then
+             s=$(echo "-$pi/2" | bc -l)
+                   echo "$s"
+
+         else
+          z=$(echo "a($a/sqrt(1-$a*$a))" | bc -l )
+          echo "$z"
+         fi
+
+     else
+         echo "MATH ERROR "
+
+
+
+     fi
+  }
+
+           #----------------------arcos
+acos() {
+
+
+
+      if [[ $a -le 1  ]] && [[ $a -ge -1 ]];then
+
+           if [[ $a -eq 1 ]];then
+                echo "0"
+
+           elif [[ $a -eq -1 ]];then
+                echo "$pi"
+
+           else
+          z=$(echo "$pi/2-a($a/sqrt(1-$a*$a))" | bc -l )
+          echo "$z"
+           fi
+
+      else
+         echo "MATH ERROR "
+
+
+
+      fi
+  }
+
+          #---------------------arctan
+
+         atan()
+  {
+
+         z=$(echo "a($a)" | bc -l )
+          echo $z
+
+  }
+
+
+
+          #-----------------------abs
+  abs()
+  {
+      if [[ $a -ge 0 ]];then
+          echo "$a"
+      else
+         z=$(echo "$a*-1" | bc -l )
+          echo "$z"
+
+       fi
+
+  }
+
+  pi()
+    {
+            echo "$pi"
+    }
+
+
+           #----------------------log
+
+log()
+  {
+   if  [[ $a -ge 1 ]];then
+
+          z=$(echo "l($a)/l(10)" | bc -l )
+          echo "$z"
+
+
+   else
+        echo "MATH ERROR"
+   fi
+}
+
+            #------------------------ln 
+
+  ln(){
+
+ if [[ $a = *[[:digit:]]*  ]];then
+	 if  [[ $a -gt 0 ]];then
+	     d=$(echo "l($a)" | bc -l)
+	     echo "$d"
+        else
+         echo "MATH ERROR "
+	 fi
+
+	
+
+else
+        echo "MATH ERROR "
+
+fi
+}
+
+
+           #------------------- Décimal vers  Octal--------------------
+d2o(){
+  echo "obase=8;ibase=10; $a" | bc
+}
+           #----------------------- décimal vers Binaire---------------
+d2b(){
+  echo "obase=2;ibase=10; $a" | bc
+}
+
+            #--------------------- Décimal vers hexadécimal------------
+d2h(){
+  echo "obase=16;ibase=10; $a" | bc
+}
+
+           #------------------- Hexadécimal vers décimal--------------
+h2d(){
+  echo "obase10;ibase=16; $a" | bc
+}
+
+           #---------------- Hexadécimal vers  Binaire ---------------
+h2b(){
+  echo " obase=2;ibase=16; $a" | bc
+}
+           #----------------- Hexadécimal vers Octal------------------
+h2o(){
+  echo "obase=8;ibase=16; $a" | bc
+}
+
+           #-------------------- Octal vers binaire-------------------
+o2b(){
+  echo "obase=2;ibase=8; $a" | bc
+}
+
+           #-------------------- Octal vers Hexad---------------------
+o2h(){
+  echo "obase=16;ibase=8; $a" | bc
+}
+           #----------------- Octal vers Decimal----------------------
+o2d(){
+  echo "obase=10;ibase=8; $a" | bc
+}
+           #----------------- binaire vers Decimal--------------------
+b2d(){
+  echo "obase=10;ibase=2; $a" | bc
+}
+           #-------------------- binaire vers Hexad------------------
+b2h(){
+  echo "obase=16;ibase=2; $a" | bc
+}
+           #-------------------- binaire vers Octal------------------
+b2o(){
+  echo "obase=8;ibase=2; $a" | bc
+}
+
+
+
+while true ; do
+
+
+         #------------Menu principale de calculatrice -------------------
+
+file=$(zenity --width=360 --height=320 --list --title "CALCULATOR PROJECT" --text "check your choice" --column Options  "1 Start Calculator" "2 Documentations" "3 Team Members" "4 exit" )
+  
+       
+if [ "$file" = "1 Start Calculator" ]; then
+
+          #------------les modes disponible sur calculatrice -------------
+	
+	  t=$(zenity --width=360 --height=320 --list --title "CALCULATOR " --text "select Mode " --column Mode  "1 Arithemtic " "2 Scientific" "3 Programmer")
+
+
+elif [ "$file" = "2 Documentations" ]; then
+
+	#-------------afffichage de documentation---------------------
+
+	       zenity \--info --width=450 --height=300   \--text="<b> Ce projet concerne une calculatrice pour langage de script bash .</b> \n Le Menu principal contient: \n
+1-membres de l’équipe: nom des membres de l’équipe \n
+2-Documentaions: la description du projet \n
+3-le projet: ceci s’ouvrira sur un autre menu pour choisir le mode de la calculatrice nous avons 3 modes \n
+1.  arithmétique \n
+2.  scientifique \n
+3.  programmeur \n " \--title="Documentation" \--ok-label="exit"
+                         exit 1
+
+elif [ "$file" = "3 Team Members" ]; then
+
+	#----------affichage de nom des membres de l'équipe--------------
+
+                         zenity \--info --width=200 --height=200   \--text=" Kardi Hanane \n Qoumi Soukaina " \--title="Team Members" \--ok-label="exit"
+			 exit 1
+
+        #----------pour fermer calculrice ------------	 
+elif [ "$file" = "4 exit" ];then
+	exit
+	
+ fi
+
+       
+         #----------traiter les opérations arithmetics--------------
+
+  if [ "$t" = "1 Arithemtic " ];then 
+
+	 s=$(zenity --width=360 --height=320 --list --title "CALCULATOR PROJECT" --text "select Mode "  --column Mode  "1 Addition" "2 Subtraction" "3 Multiplication"  "4 Division" "5 Power" "6 Absolu" "7 Factorial" "8 ln" "9 log" "10 exit"  ) 
+
+	 case "$s" in 
+		 "1 Addition") 
+			 a=$(zenity --entry --text "enter 1st value : ")
+			 b=$(zenity --entry --text "enter 2st value : ")
+			 zenity \--info  \--text=" $a + $b = $(add)" \--title="result" \--ok-label="OK"
+			 ;;
+                  "2 Subtraction")
+                         a=$(zenity --entry --text "enter 1st value : ")
+                         b=$(zenity --entry --text "enter 2st value : ")
+                         zenity \--info  \--text=" $a -  $b = $(sub)" \--title="result" \--ok-label="OK"
+                         ;;
+                 "3 Multiplication")
+                         a=$(zenity --entry --text "enter 1st value : ")
+                         b=$(zenity --entry --text "enter 2st value : ")
+                         zenity \--info  \--text=" $a * $b = $(multi)" \--title="result" \--ok-label="OK"
+                         ;;
+                 "4 Division" )
+                         a=$(zenity --entry --text "enter 1st value : ")
+                         b=$(zenity --entry --text "enter 2st value : ")
+                         zenity \--info  \--text=" $a ÷ $b = $(div)" \--title="result" \--ok-label="OK"
+                         ;;
+                 "5 Power")
+                         a=$(zenity --entry --text "enter 1st value : ")
+                         b=$(zenity --entry --text "enter pow value : ")
+                         zenity \--info  \--text=" $a ^ $b = $(pow)" \--title="result" \--ok-label="OK"
+                         ;;
+                 "6 Absolu")
+                         a=$(zenity --entry --text "enter 1st value : ")
+                         zenity \--info  \--text="|$a|  = $(abs)" \--title="result" \--ok-label="OK"
+                         ;;
+
+	
+                 "7 Factorial")
+                         
+                         a=$(zenity --entry --text "enter 1st value : ")
+			 zenity \--info  \--text="  !($a) = $(fact)" \--title="result" \--ok-label="OK"
+                         ;;
+                 "8 ln")
+
+                         a=$(zenity --entry --text "enter 1st value : ")
+                         zenity \--info  \--text="  ln($a) = $(ln)" \--title="result" \--ok-label="OK"
+                        ;;
+                 "9 log")
+
+                         a=$(zenity --entry --text "enter 1st value : ")
+                         zenity \--info  \--text="log($a) = $(log) " \--title="result" \--ok-label="OK"
+                         ;;
+
+
+                 "10 exit" )
+			 exit 
+			 ;;
+		 esac
+	 
+         #----------traiter les opérations Scientifiques--------------
+        
+ elif  [ "$t" = "2 Scientific" ];then
+
+
+          s=$(zenity --width=360 --height=320 --list --title "SCIENTIFIC CALCULATOR" --text "select Mode " --column Mode  "1 sin" "2 cos" "3 tan"  "4 asin" "5 acos" "6 aton" "7 exit" )
+
+          c=$(zenity --width=360 --height=320 --list --title "SCIENTIFIC CALCULATOR" --text "select Mode " --column Mode  "1 rad" "2 deg" "3 grad" )
+
+
+	    case $s in
+         "1 sin")
+                a=$(zenity --entry --text "enter 1st value : ")
+		a=$(mode)
+                zenity \--info  \--text=" sin($a) = $(sin)" \--title="result" \--ok-label="OK"
+                         ;;
+
+         "2 cos")          
+	        a=$(zenity --entry --text "enter 1st value : ")
+                a=$(mode)
+                zenity \--info  \--text=" cos($a) = $(cos)" \--title="result" \--ok-label="OK"
+                         ;;
+
+         "5 acos")
+                a=$(zenity --entry --text "enter 1st value : ")
+                a=$(mode)
+                zenity \--info  \--text=" acos($a) = $(acos)" \--title="result" \--ok-label="OK"
+                         ;;
+
+         "3 tan")
+        	 a=$(zenity --entry --text "enter 1st value : ")
+                 a=$(mode)
+                 zenity \--info  \--text=" tan($a) = $(tan)" \--title="result" \--ok-label="Ok"
+		        ;;
+
+         "4 asin")
+                a=$(zenity --entry --text "enter 1st value : ")
+                a=$(mode)
+                zenity \--info  \--text=" asin($a) = $(asin)" \--title="result" \--ok-label="OK"
+                         ;;
+
+         "6 aton")
+                a=$(zenity --entry --text "enter 1st value : ")
+                a=$(mode)
+                zenity \--info  \--text=" atan($a) = $(atan)" \--title="result" \--ok-label="OK"
+                         ;;
+       	 "7 exit")
+		 exit
+		 ;;
+        esac
+
+         #----------traiter les opérations binaires--------------
+
+ elif  [ "$t" = "3 Programmer" ];then
+
+
+	  s=$(zenity --width=360 --height=320 --list --title "PROGRAMMER  CALCULATOR" --text "FROM " --column Mode  "1 Decimal" "2 Binary" "3 Octal" "4 Hexadecimal" )
+
+	  case $s in
+         "1 Decimal" )
+                a=$(zenity --entry --text "enter a Decimal number : ")
+                zenity \--info  \--text="Conversion of  ($a) is 
+		Binary = $(d2b) 
+		Octal = $(d2o)
+		Hexa = $(d2h)
+
+		" \--title="result" \--ok-label="OK"
+                         ;;
+
+         "2 Binary")
+                a=$(zenity --entry --text "enter a Binary  number : ")
+                zenity \--info  \--text="Conversion of  ($a) is 
+                Decimal = $(b2d) 
+                Octal = $(b2o)
+                Hexa = $(b2h)
+
+                " \--title="result" \--ok-label="OK"
+                         ;;
+
+
+         "3 Octal")
+                a=$(zenity --entry --text "enter a Octal number : ")
+                zenity \--info  \--text="Conversion of  ($a) is 
+                Binary = $(o2b) 
+                Decimal = $(o2d)
+                Hexa = $(o2h)
+
+                " \--title="result" \--ok-label="OK"
+                         ;;
+
+
+         "4 Hexadecimal")
+                a=$(zenity --entry --text "enter a Hexadecimal number : ")
+                zenity \--info  \--text="Conversion of  ($a) is 
+                Binary = $(h2b) 
+                Octal = $(h2o)
+                Decimal = $(h2d)
+
+                " \--title="result" \--ok-label="OK"
+                         ;;
+
+         "7 exit")
+                 exit
+                 ;;
+ esac
+
+
+  fi
+done
+         #----------------- la fin du code --------------------
+
